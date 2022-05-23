@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">firebaseAuthentication</string>
+    <string name="app_image">appImage</string>
+</resources>
