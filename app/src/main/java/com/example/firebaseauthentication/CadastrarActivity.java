@@ -63,7 +63,7 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
 
             if(senha.contentEquals(confirmaSenha)){
 
-                if(verificarInternet()){
+                if(Util.verificarInternet(this)){
                     criarUsuario(email, senha);
                 }else{
                     Toast.makeText(getBaseContext(), "Erro - Verifique se sua wifi ou 3G esta funcionando", Toast.LENGTH_LONG).show();
@@ -88,36 +88,9 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
                 }else{
                     String resposta = task.getException().toString();
                     //Toast.makeText(getBaseContext(), resposta, Toast.LENGTH_LONG).show();
-                    optionsErro(resposta);
+                    Util.optionsErro(getBaseContext(), resposta);
                 }
             }
         });
-    }
-
-    private void optionsErro(String resposta){
-
-        if(resposta.contains("least 6 characters")){
-            Toast.makeText(getBaseContext(), "Digite uma senha maior que 6 characters", Toast.LENGTH_LONG).show();
-        }else if(resposta.contains("address is badly")){
-            Toast.makeText(getBaseContext(), "E-mail inválido", Toast.LENGTH_LONG).show();
-        }else if(resposta.contains("address is already")){
-            Toast.makeText(getBaseContext(), "E-mail ja existe cadastrado", Toast.LENGTH_LONG).show();
-        }else if(resposta.contains("interrupted connection")){
-            Toast.makeText(getBaseContext(), "Sem conexão com o Firebase", Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(getBaseContext(), resposta, Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private boolean verificarInternet(){
-
-        ConnectivityManager conexao = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo info = conexao.getActiveNetworkInfo();
-
-        if(info != null && info.isConnected()){
-            return true;
-        }else{
-            return false;
-        }
     }
 }

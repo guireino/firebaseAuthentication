@@ -14,5 +14,12 @@
         android:text="Janela Principal"
         android:textSize="40sp"
         android:textAlignment="center" />
+    <Button
+        android:id="@+id/button_Deslogar"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Deslogar">
+
+    </Button>
 
 </LinearLayout>

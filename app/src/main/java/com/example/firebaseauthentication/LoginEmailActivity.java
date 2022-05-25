@@ -1,5 +1,7 @@
 package com.example.firebaseauthentication;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,9 +54,19 @@ public class LoginEmailActivity extends AppCompatActivity implements View.OnClic
             break;
 
             case R.id.btn_RecuperarSenha:
-
+                recuperarSenha();
+            break;
         }
     }
+
+    private void recuperarSenha(){
+        auth.sendPasswordResetEmail("email@gmail.com").addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+
+            }
+        });
+    };
 
     private void loginEmail(){
 
@@ -63,23 +76,12 @@ public class LoginEmailActivity extends AppCompatActivity implements View.OnClic
         if (email.isEmpty() || senha.isEmpty()){
             Toast.makeText(getBaseContext(), "Insire os campos obrigatorios", Toast.LENGTH_SHORT).show();
         }else{
-            if (verificarInternet()){
+            if (Util.verificarInternet(this)){
+                ConnectivityManager conexao = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
                 confirmarLoginEmail(email, senha);
             }else{
                 Toast.makeText(getBaseContext(), "Erro - Verifique se sua wifi ou 3G esta funcionando", Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    private boolean verificarInternet(){
-
-        ConnectivityManager conexao = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo info = conexao.getActiveNetworkInfo();
-
-        if(info != null && info.isConnected()){
-            return true;
-        }else{
-            return false;
         }
     }
 
@@ -95,29 +97,10 @@ public class LoginEmailActivity extends AppCompatActivity implements View.OnClic
                     finish();
                 }else{
                     String resposta = task.getException().toString();
-                    optionsErro(resposta);
+                    Util.optionsErro(getBaseContext(), resposta);
                     //Toast.makeText(getBaseContext(), "Erro ao Logar usuario", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
     }
-
-    private void optionsErro(String resposta){
-
-        if(resposta.contains("least 6 characters")){
-            Toast.makeText(getBaseContext(), "Digite uma senha maior que 6 characters", Toast.LENGTH_LONG).show();
-        }else if(resposta.contains("address is badly")){
-            Toast.makeText(getBaseContext(), "E-mail inválido", Toast.LENGTH_LONG).show();
-        }else if(resposta.contains("interrupted connection")){
-            Toast.makeText(getBaseContext(), "Sem conexão com o Firebase", Toast.LENGTH_LONG).show();
-        }else if(resposta.contains("password is invalid")){
-            Toast.makeText(getBaseContext(), "senha invalida", Toast.LENGTH_LONG).show();
-        }else if(resposta.contains("There is no user")){
-            Toast.makeText(getBaseContext(), "Este e-mail não esta cadastrado", Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(getBaseContext(), resposta, Toast.LENGTH_LONG).show();
-        }
-    }
-
 }
