@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -60,13 +61,33 @@ public class LoginEmailActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void recuperarSenha(){
-        auth.sendPasswordResetEmail("email@gmail.com").addOnSuccessListener(new OnSuccessListener<Void>() {
+
+        String email = editText_Email.getText().toString().trim();
+
+        if (email.isEmpty()){
+            Toast.makeText(getBaseContext(), "Insire pelo menos seu e-mail para poder Recuperar sua senha", Toast.LENGTH_SHORT).show();
+        }else{
+            enviarEmail(email);
+        }
+    }
+
+    private void enviarEmail(String email) {
+
+        auth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-
+                Toast.makeText(getBaseContext(), "Enviamos uma MSG para o seu email com um link para voce redefinir a sua senha",
+                        Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                String erro = e.toString();
+                Util.optionsErro(getBaseContext(), erro);
+                // Toast.makeText(getBaseContext(), "Erro ao enviar email", Toast.LENGTH_LONG).show();
             }
         });
-    };
+    }
 
     private void loginEmail(){
 

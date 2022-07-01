@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">firebaseAuthentication</string>
     <string name="app_image">appImage</string>
+    <string name="cardView_LoginGoogle">Login Google</string>
+    <string name="client_id_firebase">1021071339431-c2067bpir8hd4n42l98f3q6ng4g19v1n.apps.googleusercontent.com</string>
+    <!--    <string name="default_web_client_id">id-cliente</string>-->
+
+    <string name="facebook_app_id">3108899326090950</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+
+    <string name="facebook_client_token">56789</string>
+    <string name="facebook_application_id" translatable="false">3108899326090950</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb1234</string>
+
 </resources>
