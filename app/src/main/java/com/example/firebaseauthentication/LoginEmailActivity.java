@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginEmailActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -112,10 +113,18 @@ public class LoginEmailActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
+                FirebaseUser user = auth.getCurrentUser();
+
                 if (task.isSuccessful()){
-                    startActivity(new Intent(getBaseContext(), PrincipalActivity.class));
-                    Toast.makeText(getBaseContext(), "Usuario Logado com Sucesso", Toast.LENGTH_SHORT).show();
-                    finish();
+
+                    if (user.isEmailVerified()){
+                        startActivity(new Intent(getBaseContext(), PrincipalActivity.class));
+                        Toast.makeText(getBaseContext(), "Usuario Logado com Sucesso", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }else{
+                        Toast.makeText(getBaseContext(), "Seu E-mail ainda nao foi confirmado", Toast.LENGTH_SHORT).show();
+                    }
+
                 }else{
                     String resposta = task.getException().toString();
                     Util.optionsErro(getBaseContext(), resposta);

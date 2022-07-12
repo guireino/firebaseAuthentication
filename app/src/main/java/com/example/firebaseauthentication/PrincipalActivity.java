@@ -1,5 +1,6 @@
 package com.example.firebaseauthentication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,9 +9,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.facebook.login.LoginManager;
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class PrincipalActivity extends AppCompatActivity implements View.OnClickListener {
@@ -49,8 +53,18 @@ public class PrincipalActivity extends AppCompatActivity implements View.OnClick
 
                 mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
                 mGoogleSignInClient.signOut();
+
+                AuthUI.getInstance()
+                        .signOut(this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+
+                            }
+                        });
+
                 finish();
 
+                //startActivity(new Intent(getBaseContext(), LoginConfigFirebaseActivity.class));
                 startActivity(new Intent(getBaseContext(), MainActivity.class));
 
             break;

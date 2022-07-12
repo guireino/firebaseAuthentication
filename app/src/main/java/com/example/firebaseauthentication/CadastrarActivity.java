@@ -1,5 +1,6 @@
 package com.example.firebaseauthentication;
 
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -17,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class CadastrarActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -84,7 +86,26 @@ public class CadastrarActivity extends AppCompatActivity implements View.OnClick
                 ///boolean resultado = task.isSuccessful();
 
                 if(task.isSuccessful()){
-                    Toast.makeText(getBaseContext(), "Cadastro efetuado com Sucesso", Toast.LENGTH_LONG).show();
+
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                    user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        //Log.d(TAG, "Email sent.");
+                                        Toast.makeText(getBaseContext(), "Acesso seu e-mail e faça a validação do seu usuario para acessar o app", Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(getBaseContext(), "Fehler" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Toast.makeText(getBaseContext(), "Falha ao enviar e-mail de confirmação", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+
+                    //startActivity(new Intent(getBaseContext(), PrincipalActivity.class));
+                    //Toast.makeText(getBaseContext(), "Cadastro efetuado com Sucesso", Toast.LENGTH_LONG).show();
+                    //finish();
                 }else{
                     String resposta = task.getException().toString();
                     //Toast.makeText(getBaseContext(), resposta, Toast.LENGTH_LONG).show();

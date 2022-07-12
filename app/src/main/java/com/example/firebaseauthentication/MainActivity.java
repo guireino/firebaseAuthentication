@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onSuccess(LoginResult loginResult) {
                 //AccessToken count loginResult.getAccessToken();
                 addfirebaseAuthWithFacebook(loginResult.getAccessToken());
-                //startActivity(new Intent(getBaseContext(), PrincipalActivity.class));
+                startActivity(new Intent(getBaseContext(), PrincipalActivity.class));
             }
 
             @Override
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                if(user != null){
+                if(user != null && user.isEmailVerified()){
                     Toast.makeText(getBaseContext(), "Usuario " + user.getEmail() + " esta logado", Toast.LENGTH_SHORT).show();
                 }else{
 
@@ -194,13 +194,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         user = auth.getCurrentUser();
 
-        if (user == null){
-            finish();
-            startActivity(new Intent(this, LoginEmailActivity.class));
-        }else{
+        if(user != null && user.isEmailVerified()){
             finish();
             startActivity(new Intent(this, PrincipalActivity.class));
+        }else{
+            startActivity(new Intent(this, LoginEmailActivity.class));
         }
+
+//        if (user == null || !user.isEmailVerified()){
+//            finish();
+//            startActivity(new Intent(this, LoginEmailActivity.class));
+//        }else{
+//            finish();
+//           startActivity(new Intent(this, PrincipalActivity.class));
+//        }
+
     }
 
     private void signInAnonimo(){
@@ -242,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             finish();
                             startActivity(new Intent(getBaseContext(),PrincipalActivity.class));
                         } else {
-                            //Toast.makeText(getBaseContext(),"Erro ao Criar Conta Google",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(),"Erro ao Criar Conta Google",Toast.LENGTH_LONG).show();
                             String resultado = task.getException().toString();
                             Util.optionsErro(getBaseContext(), resultado);
                         }

@@ -48,17 +48,28 @@ public class AberturaActivity extends AppCompatActivity implements Runnable {
                         progressBar.setProgress(second);
                     }
                 });
+
+                finish();
+                //startActivity(new Intent(getBaseContext(), LoginConfigFirebaseActivity.class));
             }
 
             FirebaseUser user = auth.getCurrentUser();
 
-            if(user == null){  // verificar se usuario esta logando para entra tireto da pagina principal
-                finish();
-                startActivity(new Intent(getBaseContext(), MainActivity.class));
-            }else{
+            if(user != null && user.isEmailVerified()){ // verificar se usuario esta logando para entra tireto da pagina principal
                 finish();
                 startActivity(new Intent(getBaseContext(), PrincipalActivity.class));
+            }else{
+                finish();
+                startActivity(new Intent(getBaseContext(), MainActivity.class));
             }
+
+//            if(user == null){
+//                finish();
+//                startActivity(new Intent(getBaseContext(), MainActivity.class));
+//            }else{
+//                finish();
+//                startActivity(new Intent(getBaseContext(), PrincipalActivity.class));
+//            }
 
         }catch (InterruptedException e){
 
