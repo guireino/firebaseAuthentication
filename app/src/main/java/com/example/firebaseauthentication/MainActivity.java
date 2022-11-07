@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.firebaseauthentication.database_list_empresa.DatabaseListEmpresaActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -112,21 +113,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void servicesGoogle() {
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+                .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
     private void servicesAuth(){
         authStateListener = new FirebaseAuth.AuthStateListener() {
+
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
                 if(user != null && user.isEmailVerified()){
-                    Toast.makeText(getBaseContext(), "Usuario " + user.getEmail() + " esta logado", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getBaseContext(), "Usuario " + user.getEmail() + " esta logado", Toast.LENGTH_SHORT).show();
                 }else{
 
                 }
@@ -226,7 +226,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             finish();
-                            startActivity(new Intent(getBaseContext(),PrincipalActivity.class));
+                            //startActivity(new Intent(getBaseContext(),PrincipalActivity.class));
+                            startActivity(new Intent(getBaseContext(), DatabaseListEmpresaActivity.class));
                         } else {
 
                             String resultado = task.getException().toString();
@@ -249,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (task.isSuccessful()) {
                             finish();
                             startActivity(new Intent(getBaseContext(),PrincipalActivity.class));
+                            //startActivity(new Intent(getBaseContext(), DatabaseListEmpresaActivity.class));
                         } else {
                             Toast.makeText(getBaseContext(),"Erro ao Criar Conta Google",Toast.LENGTH_LONG).show();
                             String resultado = task.getException().toString();
@@ -268,7 +270,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             // Sign in success, update UI with the signed-in user's information
                             finish();
                             startActivity(new Intent(getBaseContext(),PrincipalActivity.class));
+                            //startActivity(new Intent(getBaseContext(), DatabaseListEmpresaActivity.class));
                         } else {
+
                             // If sign in fails, display a message to the user.
                             //Toast.makeText(getBaseContext(),"Erro ao Criar Conta Anonima",Toast.LENGTH_LONG).show();
 
@@ -295,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 addfirebaseAuthWithGoogle(account);
 
-                //startActivity(new Intent(getBaseContext(), PrincipalActivity.class));
+                startActivity(new Intent(getBaseContext(), PrincipalActivity.class));
             } catch (ApiException e){
                 // String res = task.getException().toString();
                 // Toast.makeText(getBaseContext(), "Erro ao Logar com conta do Google", Toast.LENGTH_LONG).show();

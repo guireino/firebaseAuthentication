@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ProgressBar;
 
+import com.example.firebaseauthentication.database_list_empresa.DatabaseListEmpresaActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -60,16 +61,10 @@ public class AberturaActivity extends AppCompatActivity implements Runnable {
                 startActivity(new Intent(getBaseContext(), PrincipalActivity.class));
             }else{
                 finish();
-                startActivity(new Intent(getBaseContext(), MainActivity.class));
+                //startActivity(new Intent(getBaseContext(), MainActivity.class));
+                // entrando tela lista enpresas do usuario do id
+                startActivity(new Intent(getBaseContext(), DatabaseListEmpresaActivity.class));
             }
-
-//            if(user == null){
-//                finish();
-//                startActivity(new Intent(getBaseContext(), MainActivity.class));
-//            }else{
-//                finish();
-//                startActivity(new Intent(getBaseContext(), PrincipalActivity.class));
-//            }
 
         }catch (InterruptedException e){
 

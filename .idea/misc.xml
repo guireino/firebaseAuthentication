@@ -11,6 +11,9 @@
         <entry key="app/src/main/res/layout/activity_login_email.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3351449275362319" />
         <entry key="app/src/main/res/layout/activity_principal.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/database_list_empresa_activity.xml" value="0.18958333333333333" />
+        <entry key="app/src/main/res/layout/database_list_funcionario_recyclerview.xml" value="0.1953125" />
+        <entry key="app/src/main/res/layout/list_empresa_recycleview.xml" value="0.1953125" />
         <entry key="app/src/main/res/layout/network_security_config.xml" value="0.15260416666666668" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.19791666666666666" />
         <entry key="app/src/main/res/xml/network_security_config.xml" value="0.18333333333333332" />
